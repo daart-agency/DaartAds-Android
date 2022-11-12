@@ -21,7 +21,8 @@ allprojects {
         jcenter()
         maven { url 'https://jitpack.io' }
         maven {
-            url 'https://dl.bintray.com/tapsellorg/maven'
+            url "https://jitpack.io"
+            credentials { username authToken }
         }
 
     }
@@ -30,3 +31,10 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+//
+//task generateSourcesJar(type: Jar) {
+//    from android.sourceSets.main.java.srcDirs
+//
+//    classifier 'sources'
+//
+//}
