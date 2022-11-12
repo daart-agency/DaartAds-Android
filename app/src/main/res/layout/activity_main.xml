@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/test"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btn_interstitial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+        android:text="show interstitial ad!"/>
+
+    <Button
+        android:id="@+id/btn_full_banner"
+        android:layout_below="@+id/btn_interstitial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:onClick="fullBanner"
+        android:layout_centerHorizontal="true"
+        android:text="show Full banner"/>
+
+    <Button
+        android:id="@+id/btn_large_banner"
+        android:layout_below="@+id/btn_full_banner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:onClick="largeBanner"
+        android:layout_centerHorizontal="true"
+        android:text="show large banner"/>
+
+    <Button
+        android:id="@+id/btn_leaderboard_banner"
+        android:layout_below="@+id/btn_large_banner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:onClick="leaderboardBanner"
+        android:layout_centerHorizontal="true"
+        android:text="show leaderboard banner"/>
+
+    <Button
+        android:id="@+id/btn_medium_rectangle_banner"
+        android:layout_below="@+id/btn_leaderboard_banner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:onClick="mediumRectangleBanner"
+        android:layout_centerHorizontal="true"
+        android:text="show Medium Rectangle banner"/>
+
+    <Button
+        android:id="@+id/btn_wide_skyscraper_banner"
+        android:layout_below="@+id/btn_medium_rectangle_banner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:onClick="wideSkyscraperBanner"
+        android:layout_centerHorizontal="true"
+        android:text="show Wide Skyscraper banner"/>
+
+    <com.daartads.sdk.DaartAds
+        android:id="@+id/testBanner"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#eeeeee" />
+
+</RelativeLayout>
