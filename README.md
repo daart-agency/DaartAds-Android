@@ -18,6 +18,23 @@ Add the dependency and app/build.gradle
 ```
 ## How to implement
 
-### initialize
-DaartAds.initialize("$2y$10$UVwqH7MvkjcoofW/czav8ehPQdYxf4d2b.u8MZEK8HxeCa4Y2Zgy.");
+### initialize SDK
+DaartAds.initialize("PLACE_YOUR_TOKEN");
+
+### Show banner ad
+
+   DaartAds banner = findViewById(R.id.testBanner);
+   banner.setAdSize(AdSize.BANNER);
+
+   banner.loadAd(new AdListener() {
+      @Override
+      public void onLoad(com.daartads.sdk.model.BannerAd ad) {
+          Toast.makeText(MainActivity.this, "banner ad loaded success!", Toast.LENGTH_SHORT).show();
+      }
+
+   @Override
+   public void onError(Exception e) {
+       Toast.makeText(MainActivity.this, "failed to load banner ad!", Toast.LENGTH_SHORT).show();
+   }
+   });
 
