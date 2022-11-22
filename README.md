@@ -1,6 +1,6 @@
 # Daart Android Advertisement SDK (DaartAds)
 
-#### Add bellow lines in your root build.gradle:
+#### Add bellow lines in your root build.gradle
 ```sh
     allprojects {
         repositories {
@@ -37,6 +37,23 @@ banner.loadAd(new AdListener() {
    public void onError(Exception e) {
        Toast.makeText(MainActivity.this, "failed to load banner ad!", Toast.LENGTH_SHORT).show();
    }
+});
+```
+
+## Show interstitial ad
+```sh
+DaartAds ads2 = new DaartAds(this);
+ads2.setAdSize(AdSize.INTERSTITIAL);
+ads2.loadAd(new AdListener() {
+    @Override
+    public void onLoad(com.daartads.sdk.model.BannerAd ad) {
+        Toast.makeText(MainActivity.this, "interstitial ad loaded success!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Toast.makeText(MainActivity.this, "failed to load interstitial ad!", Toast.LENGTH_SHORT).show();
+    }
 });
 ```
 
