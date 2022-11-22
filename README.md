@@ -57,4 +57,14 @@ interstitial.loadAd(new AdListener() {
 });
 ```
 
+## Ad sizes
+```sh
+    BANNER
+    FULL_BANNER
+    LARGE_BANNER
+    LEADERBOARD
+    MEDIUM_RECTANGLE
+    WIDE_SKYSCRAPER
+    INTERSTITIAL
+```
 
