@@ -1,7 +1,6 @@
 # Daart Android Advertisement SDK
-## Shows Interstitial and Banner ads in Android platforms.
 
-Add it in your root build.gradle at the end of repositories:
+## Add bellow lines in your root build.gradle:
 ```sh
     allprojects {
         repositories {
