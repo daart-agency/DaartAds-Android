@@ -19,13 +19,11 @@ Add the dependency and app/build.gradle
 ## How to implement
 
 ### initialize SDK
-
 ```sh
 DaartAds.initialize("PLACE_YOUR_TOKEN");
 ```
 
 ### Show banner ad
-
 ```sh
 DaartAds banner = findViewById(R.id.testBanner);
 banner.setAdSize(AdSize.BANNER);
