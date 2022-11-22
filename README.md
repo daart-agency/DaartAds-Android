@@ -68,8 +68,8 @@ WIDE_SKYSCRAPER
 INTERSTITIAL
 ```
 
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
+| Type  | Description | Size |
+| ------------- | ------------- | 
+| BANNER  | Content Cell  | 320x50_mb
+| Content Cell  | Content Cell  | 320x50_mb
 
