@@ -69,7 +69,7 @@ INTERSTITIAL
 ```
 
 | Type  | Description | Size |
-| ------------- | ------------- | 
-| BANNER  | Content Cell  | 320x50_mb
-| Content Cell  | Content Cell  | 320x50_mb
+| ------------- | ------------- | ------------ |
+| BANNER  | Content Cell  | 320x50_mb |
+| Content Cell  | Content Cell  | 320x50_mb |
 
