@@ -17,7 +17,7 @@
 ```
 ## How to implement
 
-## initialize SDK
+## Initialize SDK
 ```sh
 DaartAds.initialize("PLACE_YOUR_TOKEN");
 ```
@@ -66,5 +66,5 @@ interstitial.loadAd(new AdListener() {
 | LARGE_BANNER  | 728 x 90 |
 | LEADERBOARD  | 300 x 250 |
 | MEDIUM_RECTANGLE  | 160 x 600 |
-| INTERSTITIAL  | Fullscreen |
+| INTERSTITIAL  | Full Screen |
 
