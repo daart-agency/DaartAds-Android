@@ -16,3 +16,4 @@ Add the dependency and app/build.gradle
         implementation 'com.github.soheilazimi2017:DaartAds:alpha'
     }
 ```
+
