@@ -23,6 +23,7 @@ DaartAds.initialize("PLACE_YOUR_TOKEN");
 
 ### Show banner ad
 
+```sh
    DaartAds banner = findViewById(R.id.testBanner);
    banner.setAdSize(AdSize.BANNER);
 
@@ -32,9 +33,9 @@ DaartAds.initialize("PLACE_YOUR_TOKEN");
           Toast.makeText(MainActivity.this, "banner ad loaded success!", Toast.LENGTH_SHORT).show();
       }
 
-   @Override
-   public void onError(Exception e) {
-       Toast.makeText(MainActivity.this, "failed to load banner ad!", Toast.LENGTH_SHORT).show();
-   }
+      @Override
+      public void onError(Exception e) {
+          Toast.makeText(MainActivity.this, "failed to load banner ad!", Toast.LENGTH_SHORT).show();
+      }
    });
-
+```
