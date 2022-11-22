@@ -1,6 +1,6 @@
-# Daart Android Advertisement SDK
+# Daart Android Advertisement SDK (DaartAds)
 
-## Add bellow lines in your root build.gradle:
+#### Add bellow lines in your root build.gradle:
 ```sh
     allprojects {
         repositories {
