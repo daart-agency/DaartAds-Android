@@ -18,5 +18,6 @@ Add the dependency and app/build.gradle
 ```
 ## How to implement
 
+### initialize
 DaartAds.initialize("$2y$10$UVwqH7MvkjcoofW/czav8ehPQdYxf4d2b.u8MZEK8HxeCa4Y2Zgy.");
 
