@@ -58,18 +58,13 @@ interstitial.loadAd(new AdListener() {
 ```
 
 ## Ad sizes
-```sh
-BANNER
-FULL_BANNER
-LARGE_BANNER
-LEADERBOARD
-MEDIUM_RECTANGLE
-WIDE_SKYSCRAPER
-INTERSTITIAL
-```
 
-| Type  | Description | Size |
-| ------------- | ------------- | ------------ |
-| BANNER  | Content Cell  | 320x50_mb |
-| Content Cell  | Content Cell  | 320x50_mb |
+| Type  | Size |
+| ------------- | ------------ |
+| BANNER  | 320 x 50 |
+| FULL_BANNER  | 320 x 100 |
+| LARGE_BANNER  | 728 x 90 |
+| LEADERBOARD  | 300 x 250 |
+| MEDIUM_RECTANGLE  | 160 x 600 |
+| INTERSTITIAL  | Fullscreen |
 
