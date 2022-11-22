@@ -42,9 +42,9 @@ banner.loadAd(new AdListener() {
 
 ## Show interstitial ad
 ```sh
-DaartAds ads2 = new DaartAds(this);
-ads2.setAdSize(AdSize.INTERSTITIAL);
-ads2.loadAd(new AdListener() {
+DaartAds interstitial = new DaartAds(this);
+interstitial.setAdSize(AdSize.INTERSTITIAL);
+interstitial.loadAd(new AdListener() {
     @Override
     public void onLoad(com.daartads.sdk.model.BannerAd ad) {
         Toast.makeText(MainActivity.this, "interstitial ad loaded success!", Toast.LENGTH_SHORT).show();
