@@ -13,7 +13,7 @@ Add it in your root build.gradle at the end of repositories:
 Add the dependency and app/build.gradle
 ```sh
     dependencies {
-        implementation 'com.github.soheilazimi2017:DaartAds:alpha'
+        implementation 'com.github.soheilazimi2017:DaartAds:alpha.....'
     }
 ```
 
