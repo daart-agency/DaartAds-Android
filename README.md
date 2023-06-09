@@ -19,42 +19,47 @@
 
 ## Initialize SDK
 ```sh
-DaartAds.initialize("PLACE_YOUR_TOKEN");
+DaartAds.initialize("PLACE_YOUR_AUTH_TOKEN");
 ```
 
 ## Show banner ad
 ```sh
-DaartAds banner = findViewById(R.id.testBanner);
-banner.setAdSize(AdSize.BANNER);
+val bannerAd = findViewById<DaartAds>(R.id.testBanner)
+        bannerAd.setAdSize(AdSize.BANNER)
+        bannerAd.loadAd(object : AdListener {
+            override fun onLoad(ad: BannerAd?) {
+                Toast.makeText(this@MainActivity, "banner ad loaded success!", Toast.LENGTH_SHORT)
+                    .show()
+            }
 
-banner.loadAd(new AdListener() {
-   @Override
-   public void onLoad(com.daartads.sdk.model.BannerAd ad) {
-       Toast.makeText(MainActivity.this, "banner ad loaded success!", Toast.LENGTH_SHORT).show();
-   }
-
-   @Override
-   public void onError(Exception e) {
-       Toast.makeText(MainActivity.this, "failed to load banner ad!", Toast.LENGTH_SHORT).show();
-   }
-});
+            override fun onError(e: java.lang.Exception?) {
+                Toast.makeText(this@MainActivity, "failed to load banner ad!", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        })
 ```
 
 ## Show interstitial ad
 ```sh
-DaartAds interstitial = new DaartAds(this);
-interstitial.setAdSize(AdSize.INTERSTITIAL);
-interstitial.loadAd(new AdListener() {
-    @Override
-    public void onLoad(com.daartads.sdk.model.BannerAd ad) {
-        Toast.makeText(MainActivity.this, "interstitial ad loaded success!", Toast.LENGTH_SHORT).show();
-    }
+val interstitialAd = DaartAds(this)
+        interstitialAd.setAdSize(AdSize.INTERSTITIAL)
+        interstitialAd.loadAd(object : AdListener {
+            override fun onError(e: Exception?) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "failed to load interstitial ad!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
 
-    @Override
-    public void onError(Exception e) {
-        Toast.makeText(MainActivity.this, "failed to load interstitial ad!", Toast.LENGTH_SHORT).show();
-    }
-});
+            override fun onLoad(ad: BannerAd?) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "interstitial ad loaded success!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
 ```
 
 ## Ad sizes
