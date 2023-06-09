@@ -12,7 +12,7 @@
 #### Add the dependency and app/build.gradle
 ```sh
     dependencies {
-        implementation 'com.github.soheilazimi2017:DaartAds:alpha'
+        implementation 'com.github.soheilazimi2017:daartads-android:1.1.0'
     }
 ```
 ## How to implement
