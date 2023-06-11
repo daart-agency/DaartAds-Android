@@ -92,7 +92,7 @@ public class DaartAds extends RelativeLayout {
     }
 
     public void loadAd(AdListener listener) {
-        Log.i("Soheil", "loadAd: super");
+//        Log.i("Soheil", "loadAd: super");
 
         if (listener == null) {
             listener.onError(new Exception("add listener is null..."));
@@ -179,7 +179,7 @@ public class DaartAds extends RelativeLayout {
 
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.i("Soheil", "doInBackground: " + e.getMessage());
+//                Log.i("Soheil", "doInBackground: " + e.getMessage());
             }
 
 
@@ -218,7 +218,7 @@ public class DaartAds extends RelativeLayout {
         @Override
         protected void onPostExecute(String result) {
 
-            Log.i("Soheil", "doInBackground, result: " + result);
+//            Log.i("Soheil", "doInBackground, result: " + result);
 
             try {
 
@@ -234,17 +234,17 @@ public class DaartAds extends RelativeLayout {
 //                Log.i("Soheil", "onPostExecute, status: " + status);
 //                Log.i("Soheil", "onPostExecute, uri: " + uri);
 //                Log.i("Soheil", "onPostExecute, builder: " + builder);
-                Log.i("Soheil", "onPostExecute ------------------------------------------------------------ ");
+//                Log.i("Soheil", "onPostExecute ------------------------------------------------------------ ");
 
                 if (status == 200) {
-                    Log.i("Soheil", "onPostExecute, status: " + 200);
+//                    Log.i("Soheil", "onPostExecute, status: " + 200);
 
                     String imageUrl = "https://s2.uupload.ir/files/ic_launcher_j1o.png";
 //                    String imageUrl = resultObj.getString("image_url");
                     String url = resultObj.getString("url");
 
-                    Log.i("Soheil", "onPostExecute, imageUrl: " + imageUrl);
-                    Log.i("Soheil", "onPostExecute, url: " + url);
+//                    Log.i("Soheil", "onPostExecute, imageUrl: " + imageUrl);
+//                    Log.i("Soheil", "onPostExecute, url: " + url);
 
                     if (AdSize.BANNER == DaartAds.this.adSize ||
                             AdSize.FULL_BANNER == DaartAds.this.adSize ||
@@ -255,23 +255,23 @@ public class DaartAds extends RelativeLayout {
 
                         mUrl = url;
 
-                        Log.i("Soheil", "AdType: <--BANNER-->");
+//                        Log.i("Soheil", "AdType: <--BANNER-->");
                         showBanner(imageUrl);
 
                     } else if (AdSize.INTERSTITIAL.equals(adSize)) {
-                        Log.i("Soheil", "AdType: <--INTERSTITIAL-->");
+//                        Log.i("Soheil", "AdType: <--INTERSTITIAL-->");
                         loadInterstitial(imageUrl);
                     }
 
                 } else if (status == 401) {
-                    Log.i("Soheil", "onPostExecute, status: " + 401);
+//                    Log.i("Soheil", "onPostExecute, status: " + 401);
 
                     String errorMsg = resultObj.getString("Error-Msg");
-                    Log.i("Soheil", "onPostExecute, Error-Msg: " + errorMsg);
+//                    Log.i("Soheil", "onPostExecute, Error-Msg: " + errorMsg);
                 }
 
             } catch (Exception e) {
-                Log.i("Soheil", "onPostExecute: eeee: " + e.getMessage());
+//                Log.i("Soheil", "onPostExecute: eeee: " + e.getMessage());
             }
 
 //            // something...
@@ -295,7 +295,7 @@ public class DaartAds extends RelativeLayout {
 
     public void showBanner(String image) {
 
-        Log.i("Soheil", "showing banner...");
+//        Log.i("Soheil", "showing banner...");
 
         AppCompatImageView imageBanner = new AppCompatImageView(this.getContext());
 
@@ -312,14 +312,14 @@ public class DaartAds extends RelativeLayout {
                 .into(imageBanner, new Callback() {
                     @Override
                     public void onSuccess() {
-                        Log.i("Soheil", "picasso loaded!");
+//                        Log.i("Soheil", "picasso loaded!");
                         isLoaded = true;
 
                     }
 
                     @Override
                     public void onError(Exception e) {
-                        Log.i("Soheil", "picasso error!");
+//                        Log.i("Soheil", "picasso error!");
                         isLoaded = false;
                     }
                 });
@@ -337,27 +337,25 @@ public class DaartAds extends RelativeLayout {
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             isLoaded = true;
             interstitialBitmap = bitmap;
-            Log.i("Soheil", "onBitmapLoaded: ");
+//            Log.i("Soheil", "onBitmapLoaded: ");
         }
 
         @Override
         public void onBitmapFailed(Exception e, Drawable errorDrawable) {
             isLoaded = false;
-            Log.i("Soheil", "onBitmapFailed: ");
+//            Log.i("Soheil", "onBitmapFailed: ");
         }
 
         @Override
         public void onPrepareLoad(Drawable placeHolderDrawable) {
             isLoaded = false;
-            Log.i("Soheil", "onPrepareLoad: ");
+//            Log.i("Soheil", "onPrepareLoad: ");
         }
     };
 
     public void show() {
         if (adSize == AdSize.INTERSTITIAL && interstitialBitmap != null) {
             showInterstitial();
-        } else {
-            Log.i("Soheil", "show: interstitialBitmap is null!");
         }
     }
 
@@ -396,8 +394,6 @@ public class DaartAds extends RelativeLayout {
 
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(mUrl));
-
-        Log.i("Soheil", "redirectAds: " + mUrl);
 
         getContext().startActivity(i);
     }
