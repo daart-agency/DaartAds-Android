@@ -6,72 +6,117 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btn_interstitial"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_centerHorizontal="true"
-        android:text="show interstitial ad!"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btn_full_banner"
-        android:layout_below="@+id/btn_interstitial"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:onClick="fullBanner"
-        android:layout_centerHorizontal="true"
-        android:text="show Full banner"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_large_banner"
-        android:layout_below="@+id/btn_full_banner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:onClick="largeBanner"
-        android:layout_centerHorizontal="true"
-        android:text="show large banner"/>
+            <Button
+                android:id="@+id/btn_random_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:onClick="load_random_size"
+                android:text="0- random size"
+                android:visibility="gone"/>
 
-    <Button
-        android:id="@+id/btn_leaderboard_banner"
-        android:layout_below="@+id/btn_large_banner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:onClick="leaderboardBanner"
-        android:layout_centerHorizontal="true"
-        android:text="show leaderboard banner"/>
+            <Button
+                android:id="@+id/btn_720_480"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:onClick="load_720_480"
+                android:text="1- load 720*480 (interstital)"/>
 
-    <Button
-        android:id="@+id/btn_medium_rectangle_banner"
-        android:layout_below="@+id/btn_leaderboard_banner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:onClick="mediumRectangleBanner"
-        android:layout_centerHorizontal="true"
-        android:text="show Medium Rectangle banner"/>
+            <Button
+                android:id="@+id/btn_728_90"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:onClick="load_728_90"
+                android:text="2- load 728*90"/>
 
-    <Button
-        android:id="@+id/btn_wide_skyscraper_banner"
-        android:layout_below="@+id/btn_medium_rectangle_banner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:onClick="wideSkyscraperBanner"
-        android:layout_centerHorizontal="true"
-        android:text="show Wide Skyscraper banner"/>
+            <Button
+                android:id="@+id/btn_leaderboard_banner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:onClick="load_480_320"
+                android:text="3- load 480*320"/>
 
-    <com.daartads.sdk.DaartAds
-        android:id="@+id/testBanner"
-        android:layout_width="320dp"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="#eeeeee" />
+            <Button
+                android:id="@+id/btn_492_328"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:onClick="load_492_328"
+                android:text="4- show 492*328"/>
+
+            <Button
+                android:id="@+id/btn_468_60"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:onClick="load_468_60"
+                android:text="5- show 468*60"/>
+
+            <Button
+                android:id="@+id/btn_360_240"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:onClick="load_360_240"
+                android:text="6- show 360*240"/>
+
+            <Button
+                android:id="@+id/btn_320_100"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:onClick="load_320_100"
+                android:text="7- show 320*100"/>
+
+            <Button
+                android:id="@+id/btn_320_50"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:onClick="load_320_50"
+                android:text="8- show 320*50"/>
+
+            <Button
+                android:id="@+id/btn_300_250"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:onClick="load_300_250"
+                android:text="9- show 300*250"/>
+
+            <Button
+                android:id="@+id/btn_295_98"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:onClick="load_295_98"
+                android:text="10- show 295*98"/>
+
+            <Button
+                android:id="@+id/btn_160_600"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:onClick="load_160_600"
+                android:text="11- show 160*600"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

@@ -3,13 +3,16 @@ package com.daartads.sdk;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -17,349 +20,198 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import androidx.appcompat.widget.AppCompatImageView;
+import androidx.annotation.Nullable;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.daartads.sdk.callback.AdListener;
 import com.daartads.sdk.config.Api;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
+
 
 public class DaartAds extends RelativeLayout {
 
-    private static String token;
-    private boolean isLoaded;
-    private Bitmap interstitialBitmap;
+    private static String mToken;
+    public static Context mContext;
+    private AdListener mListener;
+    private ProgressBar pbLoading;
+    private RelativeLayout.LayoutParams mParams;
 
-    //public Context mContext;
     public AdSize adSize;
     public String mUrl;
 
-    public String mCid;
-    public String mSource;
-
-    public DaartAds(Context context) {
-        super(context);
+    public DaartAds(Context mContext) {
+        super(mContext);
     }
 
-    public DaartAds(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public DaartAds(Context mContext, AttributeSet attrs) {
+        super(mContext, attrs);
     }
 
-    public DaartAds(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-
-//        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Options, 0, 0);
-//        String titleText = a.getString(R.styleable.Options_titleText);
-//
-//        @SuppressLint("ResourceAsColor")
-//        int valueColor = a.getColor(R.styleable.Options_valueColor, android.R.color.holo_blue_light);
-//        a.recycle();
+    public DaartAds(Context mContext, AttributeSet attrs, int defStyleAttr) {
+        super(mContext, attrs, defStyleAttr);
     }
 
-    public DaartAds(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+    public DaartAds(Context mContext, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(mContext, attrs, defStyleAttr, defStyleRes);
     }
 
-    public static void initialize(String authToken) {
-        token = authToken;
+    public static void initialize(Context c, String authToken) {
+        mContext = c;
+        mToken = authToken;
     }
 
-    public void setAdSize(AdSize adSize) {
+    public void setAdSize(Context c, AdSize adSize) {
         this.adSize = adSize;
 
-
-//        Log.i("Soheil", "setAdSize: w: " + adSize.width);
-//        Log.i("Soheil", "setAdSize: h: " + adSize.height);
-
-        if (adSize != AdSize.INTERSTITIAL) {
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) this.getLayoutParams();
-            params.width = dpToPx(adSize.width);
-            params.height = dpToPx(adSize.height);
-            this.setLayoutParams(params);
-        }
+        mParams = new RelativeLayout.LayoutParams(dpToPx(adSize.width), dpToPx(adSize.height));
+        mParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        mParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        this.setLayoutParams(mParams);
     }
 
     public void loadAd(AdListener listener) {
-//        Log.i("Soheil", "loadAd: super");
-
         if (listener == null) {
             listener.onError(new Exception("add listener is null..."));
+        } else {
+            mListener = listener;
         }
-
-        HashMap<String, String> data = new HashMap<>();
-        data.put("token", token);
-//        data.put("adsize", getAdSize());
-
-//        Log.i("Soheil", "adsize: "+ getAdSize());
-
-
-        AdLoaderService loader = new AdLoaderService(data);
-        loader.execute(Api.ADS_API);
-
-//        setOnClickListener(view -> {
-//            Log.i("Soheil", "onClick: main");
-//            performCallback();
-//        });
+        getAd();
     }
 
-//    private String getAdSize() {
-//        String size;
-//
-//        if (adSize == AdSize.FULL_BANNER) {
-//            size = "1";
-//        } else if (adSize == AdSize.BANNER) {
-//            size = "2";
-//        } else if (adSize == AdSize.LARGE_BANNER) {
-//            size = "3";
-//        } else if (adSize == AdSize.LEADERBOARD) {
-//            size = "4";
-//        } else if (adSize == AdSize.MEDIUM_RECTANGLE) {
-//            size = "5";
-//        } else if (adSize == AdSize.WIDE_SKYSCRAPER) {
-//            size = "6";
-//        } else {
-//            size = "10";
-//        }
-//
-//        return size;
-//    }
+    private void getAd() {
 
-    public class AdLoaderService extends AsyncTask<String, String, String> {
+        showLoading();
 
-//        interface Listener {
-//            void onResult(String result);
-//        }
+        RequestQueue queue = Volley.newRequestQueue(mContext);
 
-        //        private Listener mListener;
-        private final HashMap<String, String> mData;// post data
+        StringRequest myReq = new StringRequest(Request.Method.GET, Api.ADS_API + adSize.flag,
+                response -> {
 
-        public AdLoaderService(HashMap<String, String> data) {
-            mData = data;
-        }
-//        public void setListener(Listener listener) {
-//            mListener = listener;
-//        }
+                    try {
+                        JSONObject mainObject = new JSONObject(response);
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showLoading();
-        }
+                        // Header object
+                        JSONObject  headerObj = mainObject.getJSONObject("Header");
+                        int status = mainObject.getInt("Status");
 
-        @Override
-        protected String doInBackground(String... params) {
-            String str = "";
+                        // Result object
+                        JSONObject resultObj = null;
 
-            try {
+                        try {
+                            resultObj = mainObject.getJSONObject("Result");
+                        } catch (Exception ignored) {
+                        }
 
-                HttpGet httpGet = new HttpGet(params[0]);
-                HttpClient httpclient = new DefaultHttpClient();
+                        String builder = headerObj.getString("Builder");
+                        String uri = headerObj.getString("URI");
 
-                httpGet.addHeader("Authorization","Bearer " + token);
+                        if (resultObj == null) {
+                            mListener.notExist();
+                            hideLoading();
 
-                HttpResponse response = httpclient.execute(httpGet);
+                        } else {
 
-//                StatusLine stat = response.getStatusLine();
-//                int status = response.getStatusLine().getStatusCode();
+                            if (status == 200) {
+                                String imageUrl = resultObj.getString("image_url");
+                                String url = resultObj.getString("url");
 
-                HttpEntity entity = response.getEntity();
-                str = EntityUtils.toString(entity);
+                                mUrl = resultObj.getString("url");
 
-            } catch (IOException e) {
-                e.printStackTrace();
-//                Log.i("Soheil", "doInBackground: " + e.getMessage());
-            }
+                                // show in interstitial ad view
+                                if (AdSize.SIZE_720x480.equals(adSize)) {
+                                    loadInterstitialImage(imageUrl);
 
+                                    // show in banner ad view
+                                } else {
+                                    mListener.onLoad();
+                                    showBanner(imageUrl);
+                                }
 
+                            }   else if (status == 401) {
+                                String errorMsg = resultObj.getString("Error-Msg");
+                            }
+                        }
 
-
-//            HttpClient client = new DefaultHttpClient();
-//            HttpGet get = new HttpGet(params[0]);// in this case, params[0] is URL
-
-//            try {
-//
-//                // set up post data
-//                ArrayList<NameValuePair> nameValuePair = new ArrayList<>();
-//                for (String key : mData.keySet()) {
-//                    nameValuePair.add(new BasicNameValuePair(key, mData.get(key)));
-//                }
-//                get.setEntity(new UrlEncodedFormEntity(nameValuePair, "UTF-8"));
-//                HttpResponse response = client.execute(get);
-//                StatusLine statusLine = response.getStatusLine();
-//                if(statusLine.getStatusCode() == HttpURLConnection.HTTP_OK){
-//                    result = EntityUtils.toByteArray(response.getEntity());
-//                    str = new String(result, StandardCharsets.UTF_8);
-//                }
-//
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//                Log.i("Soheil", "doInBackground: e1: " + e.getMessage());
-//
-//            } catch (Exception e) {
-//                Log.i("Soheil", "doInBackground: e2: " + e.getMessage());
-//            }
-
-
-            return str;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-//            Log.i("Soheil", "doInBackground, result: " + result);
-
-            try {
-
-                JSONObject mainObject = new JSONObject(result);
-
-                JSONObject  headerObj = mainObject.getJSONObject("Header");
-                int status = mainObject.getInt("Status");
-                JSONObject  resultObj = mainObject.getJSONObject("Result");
-
-                String builder = headerObj.getString("Builder");
-                String uri = headerObj.getString("URI");
-
-//                Log.i("Soheil", "onPostExecute, status: " + status);
-//                Log.i("Soheil", "onPostExecute, uri: " + uri);
-//                Log.i("Soheil", "onPostExecute, builder: " + builder);
-//                Log.i("Soheil", "onPostExecute ------------------------------------------------------------ ");
-
-                if (status == 200) {
-//                    Log.i("Soheil", "onPostExecute, status: " + 200);
-
-                    String imageUrl = "https://s2.uupload.ir/files/ic_launcher_j1o.png";
-//                    String imageUrl = resultObj.getString("image_url");
-                    String url = resultObj.getString("url");
-
-//                    Log.i("Soheil", "onPostExecute, imageUrl: " + imageUrl);
-//                    Log.i("Soheil", "onPostExecute, url: " + url);
-
-                    if (AdSize.BANNER == DaartAds.this.adSize ||
-                            AdSize.FULL_BANNER == DaartAds.this.adSize ||
-                            AdSize.LARGE_BANNER.equals(adSize) ||
-                            AdSize.LEADERBOARD.equals(adSize) ||
-                            AdSize.MEDIUM_RECTANGLE.equals(adSize) ||
-                            AdSize.WIDE_SKYSCRAPER.equals(adSize)) {
-
-                        mUrl = url;
-
-//                        Log.i("Soheil", "AdType: <--BANNER-->");
-                        showBanner(imageUrl);
-
-                    } else if (AdSize.INTERSTITIAL.equals(adSize)) {
-//                        Log.i("Soheil", "AdType: <--INTERSTITIAL-->");
-                        loadInterstitial(imageUrl);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
-                } else if (status == 401) {
-//                    Log.i("Soheil", "onPostExecute, status: " + 401);
-
-                    String errorMsg = resultObj.getString("Error-Msg");
-//                    Log.i("Soheil", "onPostExecute, Error-Msg: " + errorMsg);
                 }
+                ,
+                error -> {
 
-            } catch (Exception e) {
-//                Log.i("Soheil", "onPostExecute: eeee: " + e.getMessage());
+                }
+        )
+        {
+            protected Map<String, String> getParams() {
+                return new HashMap<>();
             }
 
-//            // something...
-//            if (mListener != null) {
-//                mListener.onResult(result);
-//            }
-        }
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params1 = new HashMap<>();
+                params1.put("Authorization", "Bearer " + mToken);
+                return params1;
+            }
+        };
 
+        queue.add(myReq);
     }
 
     private void showLoading() {
-        ProgressBar pbLoading = new ProgressBar(this.getContext());
+        pbLoading = new ProgressBar(this.getContext());
         pbLoading.setIndeterminate(true);
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams( ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         pbLoading.setLayoutParams(params);
-        params.setMargins(25, 25, 25, 25);
+        params.setMargins(5, 5, 5, 5);
         addView(pbLoading);
+    }
+
+    private void hideLoading() {
+        if (pbLoading != null) {
+            pbLoading.setVisibility(INVISIBLE);
+        }
     }
 
     public void showBanner(String image) {
 
-//        Log.i("Soheil", "showing banner...");
+        ImageView imageBanner = new ImageView (this.getContext());
 
-        AppCompatImageView imageBanner = new AppCompatImageView(this.getContext());
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(dpToPx(adSize.width), dpToPx(adSize.height));
+        params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        params.setMargins(50,0,50,0);
 
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams( ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        imageBanner.setBackgroundColor(Color.YELLOW);
         imageBanner.setLayoutParams(params);
+        imageBanner.setScaleType(ImageView.ScaleType.FIT_XY);
         removeAllViews();
         addView(imageBanner);
 
-        imageBanner.setScaleType(ImageView.ScaleType.FIT_XY);
-
-        Picasso.get()
-                .load(image)
-                .into(imageBanner, new Callback() {
-                    @Override
-                    public void onSuccess() {
-//                        Log.i("Soheil", "picasso loaded!");
-                        isLoaded = true;
-
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-//                        Log.i("Soheil", "picasso error!");
-                        isLoaded = false;
-                    }
-                });
+        Glide.with(this).load(image).into(imageBanner);
 
         imageBanner.setOnClickListener(v -> redirectAds());
 
+        imageBanner.setBackgroundColor(Color.GRAY);
     }
 
-    private void loadInterstitial(String image) {
-        Picasso.get().load(image).into(target);
-    }
+    private void loadInterstitialImage(String url) {
+        mListener.onLoad();
 
-    private final Target target = new Target() {
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            isLoaded = true;
-            interstitialBitmap = bitmap;
-//            Log.i("Soheil", "onBitmapLoaded: ");
-        }
-
-        @Override
-        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-            isLoaded = false;
-//            Log.i("Soheil", "onBitmapFailed: ");
-        }
-
-        @Override
-        public void onPrepareLoad(Drawable placeHolderDrawable) {
-            isLoaded = false;
-//            Log.i("Soheil", "onPrepareLoad: ");
-        }
-    };
-
-    public void show() {
-        if (adSize == AdSize.INTERSTITIAL && interstitialBitmap != null) {
-            showInterstitial();
-        }
-    }
-
-    private void showInterstitial() {
         Dialog dialog = new Dialog(this.getContext(), android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         dialog.setContentView(R.layout.view_interstitial_ad);
         dialog.show();
@@ -377,7 +229,14 @@ public class DaartAds extends RelativeLayout {
             dialog.dismiss();
         });
 
-        image.setImageBitmap(interstitialBitmap);
+        Glide.with(this).load(url).into(image);
+    }
+
+    private void redirectAds() {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(mUrl));
+
+        getContext().startActivity(i);
     }
 
     public int pxToDp(int px) {
@@ -390,15 +249,8 @@ public class DaartAds extends RelativeLayout {
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    private void redirectAds() {
-
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(mUrl));
-
-        getContext().startActivity(i);
+    public float convertPxToDp(Context context, int px) {
+        return px / context.getResources().getDisplayMetrics().density;
     }
 
-    public boolean isLoaded() {
-        return isLoaded;
-    }
 }
