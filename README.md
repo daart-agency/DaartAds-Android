@@ -1,7 +1,11 @@
-# Daart Android Advertisement SDK (DaartAds)
+# DaartAds Android
+[![](https://jitpack.io/v/daart-agency/DaartAds-Android.svg)](https://jitpack.io/#daart-agency/DaartAds-Android)
+This library allows you to access the DaartAds API in your application.
 
-#### Add bellow lines in your root build.gradle
-```sh
+## Installation
+
+#### Include the following lines in your root ```build.gradle```
+```java
     allprojects {
         repositories {
           maven { url 'https://jitpack.io' }
@@ -9,38 +13,38 @@
     }
 ```
 
-#### Add the dependency and app/build.gradle
-```sh
+#### Include the dependencies listed below in your ```app/build.gradle```
+```java
     dependencies {
-        implementation 'com.github.soheilazimi2017:daartads-android:1.2'
+        implementation 'com.github.daart-agency:DaartAds-Android:1.1'
     }
 ```
-## How to implement
 
-## Initialize SDK
-```sh
-DaartAds.initialize("PLACE_YOUR_AUTH_TOKEN");
+## Usage
+```java
+DaartAds.initialize("PLACE_YOUR_TOKEN");
 ```
 
-## Show banner ad
-```sh
-val bannerAd = findViewById<DaartAds>(R.id.testBanner)
-        bannerAd.setAdSize(AdSize.BANNER)
-        bannerAd.loadAd(object : AdListener {
-            override fun onLoad(ad: BannerAd?) {
-                Toast.makeText(this@MainActivity, "banner ad loaded success!", Toast.LENGTH_SHORT)
-                    .show()
-            }
+### For Displaying Ad Banner
+```java
+DaartAds banner = findViewById(R.id.testBanner);
+banner.setAdSize(AdSize.BANNER);
 
-            override fun onError(e: java.lang.Exception?) {
-                Toast.makeText(this@MainActivity, "failed to load banner ad!", Toast.LENGTH_SHORT)
-                    .show()
-            }
-        })
+banner.loadAd(new AdListener() {
+   @Override
+   public void onLoad(com.daartads.sdk.model.BannerAd ad) {
+       Toast.makeText(MainActivity.this, "banner ad loaded success!", Toast.LENGTH_SHORT).show();
+   }
+
+   @Override
+   public void onError(Exception e) {
+       Toast.makeText(MainActivity.this, "failed to load banner ad!", Toast.LENGTH_SHORT).show();
+   }
+});
 ```
 
-## Show interstitial ad
-```sh
+### interstitial ad
+```java
 val interstitialAd = DaartAds(this)
         interstitialAd.setAdSize(AdSize.INTERSTITIAL)
         interstitialAd.loadAd(object : AdListener {
@@ -62,14 +66,14 @@ val interstitialAd = DaartAds(this)
         })
 ```
 
-## Ad sizes
+## Ad Sizes
 
 | Type  | Size |
-| ------------- | ------------ |
-| BANNER  | 320 x 50 |
+| ----- | ---- |
+| BANNER | 320 x 50 |
 | FULL_BANNER  | 320 x 100 |
 | LARGE_BANNER  | 728 x 90 |
 | LEADERBOARD  | 300 x 250 |
-| MEDIUM_RECTANGLE  | 160 x 600 |
-| INTERSTITIAL  | Full Screen |
+| MEDIUM_RECTANGLE | 160 x 600 |
+| INTERSTITIAL | Full Screen |
 
